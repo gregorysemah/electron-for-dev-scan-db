@@ -1,0 +1,26 @@
+{
+  "name": "electron-for-dev-scan-db",
+  "version": "1.0.0",
+  "description": "empty electron to call for scan-db",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "electron-builder -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gregorysemah/electron-for-dev-scan-db.git"
+  },
+  "author": "Grégory Sémah",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/gregorysemah/electron-for-dev-scan-db/issues"
+  },
+  "homepage": "https://github.com/gregorysemah/electron-for-dev-scan-db#readme",
+  "devDependencies": {
+    "electron": "^6.0.10",
+    "electron-builder": "^21.2.0"
+  }
+}
