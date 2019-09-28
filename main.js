@@ -1,8 +1,9 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const electron = require('electron')
+const {app, BrowserWindow} = electron;
 const path = require('path')
 
-let configID = 6;
+let configID = 7;
 
 let baseUrl = "http://192.168.1.43:8080"
 
@@ -22,12 +23,12 @@ let configs = [
     "/#/living-room/television",
   ],
   [ //4
-    "/#/headquarter/bedroom-bathroom/scan",
     "/#/headquarter/bedroom-bathroom/database",
+    "/#/headquarter/bedroom-bathroom/scan",
   ],
   [ //5
-    "/#/headquarter/kitchen-living-room/scan",
     "/#/headquarter/kitchen-living-room/database",
+    "/#/headquarter/kitchen-living-room/scan",
   ],
   [ //6
     "/#/briefing/television",
@@ -36,7 +37,6 @@ let configs = [
     "/#/coridor/veleda",
   ],
 ]
-
 let urls = configs[configID];
 
 let windows = [];
@@ -44,15 +44,21 @@ let windows = [];
 
 function createWindows () {
   // Create the browser window.
-  for (const url of urls) {
+  const displays = electron.screen.getAllDisplays()
+  for(let i = 0; i<urls.length; i++) {
+    const url = urls[i];
       
+    const display = displays[Math.min(i,displays.length-1)];
+    const { x, y, width, height} = display.workArea;
+
     let window = new BrowserWindow({
-      width: 1920,
-      height: 1080,
+      x, y, width, height, // set to display dimensions
       fullscreen:true,
       alwaysOnTop: true,
       resizable:true,
       movable:true,
+      frame:false,
+      show:false, 
       webPreferences: {
         preload: path.join(__dirname, 'preload.js')
       }
@@ -64,6 +70,11 @@ function createWindows () {
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
     windows.push(window);
+
+    window.once('ready-to-show', () => {
+      window.show();
+      window.setFullScreen(true);
+    })
     // Emitted when the window is closed.
     window.on('closed', function () {
       // Dereference the window object, usually you would store windows
