@@ -34,7 +34,7 @@ let configs = [
     "/#/briefing/television",
   ],
   [ //7
-    "/#/coridor/veleda",
+    "/#/corridor/velleda",
   ],
 ]
 let urls = configs[configID];
