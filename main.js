@@ -7,7 +7,7 @@ const mqtt = require('mqtt')
 
 let configID = 7;
 
-let mqttBrokerUrl = 'http://192.168.1.43:9001';
+let mqttBrokerUrl = 'mqtt://192.168.1.43:1883';
 let baseUrl = "http://192.168.1.43:8080"
 
 let configs = [
@@ -55,8 +55,8 @@ function createWindows () {
 
     let window = new BrowserWindow({
       x, y, width, height, // set to display dimensions
-      fullscreen:true,
-      alwaysOnTop: true,
+      fullscreen:false,
+      alwaysOnTop: false,
       resizable:true,
       movable:true,
       frame:false,
@@ -66,8 +66,13 @@ function createWindows () {
       }
     })
 
+    window.webContents.openDevTools()
+
     // and load the index.html of the app.
     window.loadURL(baseUrl + url)
+
+    // remove security warning
+    process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
@@ -75,7 +80,7 @@ function createWindows () {
 
     window.once('ready-to-show', () => {
       window.show();
-      window.setFullScreen(true);
+      // window.setFullScreen(true);
     })
     // Emitted when the window is closed.
     window.on('closed', function () {
@@ -133,8 +138,8 @@ function handleMessage(topic, message){
 
 mqttClient = mqtt.connect(mqttBrokerUrl);
         
-mqttClient.on("connect", function (status){
-    console.log("MQTT connected")
+mqttClient.on("connect", function (status) {
+    console.log("MQTT connected with status: ", status)
 })
 
 mqttClient.on("message", function (topic, message){
@@ -146,4 +151,4 @@ mqttClient.on("message", function (topic, message){
 for (const topicHandler of topicHandlers) {
   mqttClient.subscribe(topicHandler.topic)
   
-}
+} 
