@@ -22,5 +22,8 @@
   "devDependencies": {
     "electron": "^6.0.10",
     "electron-builder": "^21.2.0"
+  },
+  "dependencies": {
+    "mqtt": "^3.0.0"
   }
 }

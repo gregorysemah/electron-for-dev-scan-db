@@ -2,9 +2,12 @@
 const electron = require('electron')
 const {app, BrowserWindow} = electron;
 const path = require('path')
+const mqtt = require('mqtt')
+
 
 let configID = 7;
 
+let mqttBrokerUrl = 'http://192.168.1.43:9001';
 let baseUrl = "http://192.168.1.43:8080"
 
 let configs = [
@@ -40,7 +43,6 @@ let configs = [
 let urls = configs[configID];
 
 let windows = [];
-
 
 function createWindows () {
   // Create the browser window.
@@ -104,5 +106,44 @@ app.on('activate', function () {
   if (window.length == 0) createWindows()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+function reset(){
+  for(win of windows){
+    win.reloadIgnoringCache();
+  }
+}
+
+
+
+topicHandlers = [
+  {
+    topic:"/display/reset",
+    handler:(payload)=>{
+      reset();
+    }
+  }
+]
+
+function handleMessage(topic, message){
+  topicHandler = topicHandlers.find((t=>t.topic == topic))
+
+  if(topicHandler){
+    topicHandler.handler(message);
+  }
+}
+
+mqttClient = mqtt.connect(mqttBrokerUrl);
+        
+mqttClient.on("connect", function (status){
+    console.log("MQTT connected")
+})
+
+mqttClient.on("message", function (topic, message){
+  console.log("mqtt message", topic, message)
+
+    handleMessage(topic, message.toString())
+})
+
+for (const topicHandler of topicHandlers) {
+  mqttClient.subscribe(topicHandler.topic)
+  
+}
