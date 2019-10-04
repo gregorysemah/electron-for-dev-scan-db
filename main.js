@@ -1,9 +1,9 @@
 // Modules to control application life and create native browser window
 const electron = require('electron')
-const {app, BrowserWindow} = electron;
 const path = require('path')
 const mqtt = require('mqtt')
-
+const {app, BrowserWindow} = electron;
+require('electron-reload')(__dirname);
 
 let configID = 7;
 
@@ -16,7 +16,7 @@ let configs = [
   ],
   [ //1
     "/#/macro/pupitre/pupitredroit",
-  ],
+  ], 
   [ //2
     "/#/bedroom/chest",
     "/#/bedroom/pc-interface",
@@ -108,7 +108,10 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (window.length == 0) createWindows()
+  if (window === "undefined") {
+    createWindows();
+  }
+  // if (window.length == 0) createWindows()
 })
 
 function reset(){
