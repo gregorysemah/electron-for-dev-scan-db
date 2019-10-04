@@ -55,8 +55,8 @@ function createWindows () {
 
     let window = new BrowserWindow({
       x, y, width, height, // set to display dimensions
-      fullscreen:false,
-      alwaysOnTop: false,
+      fullscreen:true,
+      alwaysOnTop: true,
       resizable:true,
       movable:true,
       frame:false,
