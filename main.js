@@ -4,41 +4,38 @@ const path = require('path')
 const mqtt = require('mqtt')
 const {app, BrowserWindow} = electron;
 
-let configID = 7;
-
-let window = null;
-let contents = null;
+let configID = 3;
 
 let mqttBrokerUrl = 'mqtt://192.168.1.43:1883';
 let baseUrl = "http://192.168.1.43:8080"
 
 let configs = [
-  [ //0
+  [ //0 MACRO PUPITRE GAUCHE 192.168.1.50
     "/#/macro/pupitre/pupitregauche",
   ],
-  [ //1
+  [ //1 MACRO PUPITRE DROIT 192.168.1.51
     "/#/macro/pupitre/pupitredroit",
   ], 
   [ //2
     "/#/bedroom/chest",
     "/#/bedroom/pc-interface",
   ],
-  [ //3
+  [ //3 SALON CLARA 192.168.1.35
     "/#/living-room/chest",
     "/#/living-room/television",
   ],
-  [ //4
+  [ //4 MALETTE SALON 192.168.1.16
     "/#/headquarter/bedroom-bathroom/database",
     "/#/headquarter/bedroom-bathroom/scan",
   ],
-  [ //5
+  [ //5 MALETTE CHAMBRE 192.168.1.17
     "/#/headquarter/kitchen-living-room/database",
     "/#/headquarter/kitchen-living-room/scan",
   ],
-  [ //6
+  [ //6 BRIEFING-ROOM 192.168.1.130
     "/#/briefing/television",
   ],
-  [ //7
+  [ //7 VELLEDA 192.168.1.12
     "/#/corridor/velleda",
   ],
 ]
@@ -55,7 +52,7 @@ function createWindows () {
     const display = displays[Math.min(i,displays.length-1)];
     const { x, y, width, height} = display.workArea;
 
-    window = new BrowserWindow({
+    let window = new BrowserWindow({
       x, y, width, height, // set to display dimensions
       fullscreen:true,
       alwaysOnTop: true,
@@ -67,8 +64,6 @@ function createWindows () {
         preload: path.join(__dirname, 'preload.js')
       }
     })
-
-    contents = window.webContents;
 
     // Open the DevTools.
     // window.webContents.openDevTools()
@@ -115,9 +110,12 @@ app.on('activate', function () {
 })
 
 function reset() {
-  if (window != null) {
-    contents.reloadIgnoringCache()
-    window.reload()
+  if (windows.length != 0) {
+    for (let index = 0; index < windows.length; index++) {
+      const atomicWindow = windows[index];
+      atomicWindow.webContents.reloadIgnoringCache()
+      atomicWindow.reload()
+    }
   }
 }
 
