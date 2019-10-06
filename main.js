@@ -83,7 +83,6 @@ function createWindows () {
 
     window.once('ready-to-show', () => {
       window.show();
-      console.log("ready to show")
       // window.setFullScreen(true);
     })
     // Emitted when the window is closed.
