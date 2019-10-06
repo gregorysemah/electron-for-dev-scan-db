@@ -3,9 +3,11 @@ const electron = require('electron')
 const path = require('path')
 const mqtt = require('mqtt')
 const {app, BrowserWindow} = electron;
-require('electron-reload')(__dirname);
 
 let configID = 7;
+
+let window = null;
+let contents = null;
 
 let mqttBrokerUrl = 'mqtt://192.168.1.43:1883';
 let baseUrl = "http://192.168.1.43:8080"
@@ -53,7 +55,7 @@ function createWindows () {
     const display = displays[Math.min(i,displays.length-1)];
     const { x, y, width, height} = display.workArea;
 
-    let window = new BrowserWindow({
+    window = new BrowserWindow({
       x, y, width, height, // set to display dimensions
       fullscreen:true,
       alwaysOnTop: true,
@@ -66,7 +68,10 @@ function createWindows () {
       }
     })
 
-    window.webContents.openDevTools()
+    contents = window.webContents;
+
+    // Open the DevTools.
+    // window.webContents.openDevTools()
 
     // and load the index.html of the app.
     window.loadURL(baseUrl + url)
@@ -74,12 +79,11 @@ function createWindows () {
     // remove security warning
     process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
     windows.push(window);
 
     window.once('ready-to-show', () => {
       window.show();
+      console.log("ready to show")
       // window.setFullScreen(true);
     })
     // Emitted when the window is closed.
@@ -108,15 +112,13 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (window === "undefined") {
-    createWindows();
-  }
-  // if (window.length == 0) createWindows()
+  if (window.length == 0) createWindows()
 })
 
-function reset(){
-  for(win of windows){
-    win.reloadIgnoringCache();
+function reset() {
+  if (window != null) {
+    contents.reloadIgnoringCache()
+    window.reload()
   }
 }
 
@@ -125,13 +127,13 @@ function reset(){
 topicHandlers = [
   {
     topic:"/display/reset",
-    handler:(payload)=>{
+    handler:(payload) => {
       reset();
     }
   }
 ]
 
-function handleMessage(topic, message){
+function handleMessage(topic, message) {
   topicHandler = topicHandlers.find((t=>t.topic == topic))
 
   if(topicHandler){
@@ -145,7 +147,7 @@ mqttClient.on("connect", function (status) {
     console.log("MQTT connected with status: ", status)
 })
 
-mqttClient.on("message", function (topic, message){
+mqttClient.on("message", function (topic, message) {
   console.log("mqtt message", topic, message)
 
     handleMessage(topic, message.toString())
