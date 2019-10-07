@@ -4,7 +4,7 @@ const path = require('path')
 const mqtt = require('mqtt')
 const {app, BrowserWindow} = electron;
 
-let configID = 3;
+let configID = 2;
 
 let mqttBrokerUrl = 'mqtt://192.168.1.43:1883';
 let baseUrl = "http://192.168.1.43:8080"
@@ -32,7 +32,7 @@ let configs = [
     "/#/headquarter/kitchen-living-room/database",
     "/#/headquarter/kitchen-living-room/scan",
   ],
-  [ //6 BRIEFING-ROOM 192.168.1.130
+  [ //6 BRIEFING-ROOM 192.168.1.130 ou 192.168.1.5
     "/#/briefing/television",
   ],
   [ //7 VELLEDA 192.168.1.12
