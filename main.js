@@ -4,7 +4,7 @@ const path = require('path')
 const mqtt = require('mqtt')
 const {app, BrowserWindow} = electron;
 
-let configID = 2;
+let configID = 6;
 
 let mqttBrokerUrl = 'mqtt://192.168.1.43:1883';
 let baseUrl = "http://192.168.1.43:8080"
@@ -54,12 +54,12 @@ function createWindows () {
 
     let window = new BrowserWindow({
       x, y, width, height, // set to display dimensions
-      fullscreen:true,
+      fullscreen: true,
       alwaysOnTop: true,
-      resizable:true,
-      movable:true,
-      frame:false,
-      show:false, 
+      resizable: true,
+      movable: true,
+      frame: false,
+      show: false, 
       webPreferences: {
         preload: path.join(__dirname, 'preload.js')
       }
@@ -75,11 +75,23 @@ function createWindows () {
     process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
     windows.push(window);
+    
+
 
     window.once('ready-to-show', () => {
       window.show();
-      // window.setFullScreen(true);
+      // navigator.getUserMedia(
+      //   { video: true, audio: true },
+      //   stream => {
+      //     const video_stream = window.URL.createObjectURL(stream);
+      //     console.log(video_stream)
+      //   },
+      //   error => {
+
+      //   }
+      // )
     })
+
     // Emitted when the window is closed.
     window.on('closed', function () {
       // Dereference the window object, usually you would store windows
