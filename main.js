@@ -3,11 +3,16 @@ const electron = require('electron')
 const path = require('path')
 const mqtt = require('mqtt')
 const {app, BrowserWindow} = electron;
+const server = require('express')();
+const proxy = require('express-http-proxy');
 
-let configID = 6;
+let configID = 8;
 
 let mqttBrokerUrl = 'mqtt://192.168.1.43:1883';
-let baseUrl = "http://192.168.1.43:8080"
+let baseUrl = "http://192.168.1.13:8080"
+
+server.use('/', proxy(baseUrl));
+server.listen(3000, function () {})
 
 let configs = [
   [ //0 MACRO PUPITRE GAUCHE 192.168.1.50
@@ -38,6 +43,11 @@ let configs = [
   [ //7 VELLEDA 192.168.1.12
     "/#/corridor/velleda",
   ],
+  [ //8 TESTS RTC
+    "/#/rtc/emiter/dev",
+    "/#/rtc/receiver/dev",
+  ],
+
 ]
 let urls = configs[configID];
 
@@ -66,10 +76,10 @@ function createWindows () {
     })
 
     // Open the DevTools.
-    // window.webContents.openDevTools()
+    window.webContents.openDevTools()
 
     // and load the index.html of the app.
-    window.loadURL(baseUrl + url)
+    window.loadURL("http://localhost:3000" + url)
 
     // remove security warning
     process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';

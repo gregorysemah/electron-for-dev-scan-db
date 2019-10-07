@@ -24,6 +24,8 @@
     "electron-builder": "^21.2.0"
   },
   "dependencies": {
+    "express": "^4.17.1",
+    "express-http-proxy": "^1.6.0",
     "mqtt": "^3.0.0"
   }
 }
