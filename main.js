@@ -9,7 +9,7 @@ const proxy = require('express-http-proxy');
 let configID = 8;
 
 let mqttBrokerUrl = 'mqtt://192.168.1.43:1883';
-let baseUrl = "http://192.168.1.13:8080"
+let baseUrl = "http://192.168.1.43:8080"
 
 server.use('/', proxy(baseUrl));
 server.listen(3000, function () {})
