@@ -47,6 +47,9 @@ let configs = [
     "/#/rtc/emiter/dev",
     "/#/rtc/receiver/dev",
   ],
+  [ //9 Home
+    "/",
+  ],
 
 ]
 let urls = configs[configID];
