@@ -79,7 +79,7 @@ function createWindows () {
     })
 
     // Open the DevTools.
-    window.webContents.openDevTools()
+    // window.webContents.openDevTools()
 
     // and load the index.html of the app.
     window.loadURL("http://localhost:3000" + url)
@@ -88,8 +88,6 @@ function createWindows () {
     process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
     windows.push(window);
-    
-
 
     window.once('ready-to-show', () => {
       window.show();
