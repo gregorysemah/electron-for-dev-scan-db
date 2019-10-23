@@ -6,7 +6,7 @@ const {app, BrowserWindow} = electron;
 const server = require('express')();
 const proxy = require('express-http-proxy');
 
-let configID = 8;
+let configID = 6;
 
 let mqttBrokerUrl = 'mqtt://192.168.1.43:1883';
 let baseUrl = "http://192.168.1.43:8080"
@@ -91,16 +91,6 @@ function createWindows () {
 
     window.once('ready-to-show', () => {
       window.show();
-      // navigator.getUserMedia(
-      //   { video: true, audio: true },
-      //   stream => {
-      //     const video_stream = window.URL.createObjectURL(stream);
-      //     console.log(video_stream)
-      //   },
-      //   error => {
-
-      //   }
-      // )
     })
 
     // Emitted when the window is closed.
