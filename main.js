@@ -8,7 +8,7 @@ const proxy = require('express-http-proxy');
 const exec = require('child_process').exec
 const server = express();
 
-let configID = 4;
+let configID = 7;
 
 let configs = [
   
@@ -54,7 +54,7 @@ let configs = [
   { 
     num:4, 
     mode:"MICRO",
-    title:"MALETTE SALON", 
+    title:"MALETTE CHAMBRE", 
     ip:"192.168.1.16", 
     urls:[
       "/#/headquarter/bedroom-bathroom/database",
@@ -64,11 +64,11 @@ let configs = [
   { 
     num:5, 
     mode:"MICRO",
-    title:"MALETTE CHAMBRE", 
+    title:"MALETTE SALON", 
     ip:"192.168.1.17", 
     urls:[
-      "/#/headquarter/kitchen-living-room/database",
       "/#/headquarter/kitchen-living-room/scan",
+      "/#/headquarter/kitchen-living-room/database",
     ],
   },
   { 
