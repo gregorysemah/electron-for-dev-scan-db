@@ -8,7 +8,7 @@ const proxy = require('express-http-proxy');
 const exec = require('child_process').exec
 const server = express();
 
-let configID = 7;
+let configID = 3;
 
 let configs = [
   

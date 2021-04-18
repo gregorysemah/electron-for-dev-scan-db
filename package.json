@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/gregorysemah/electron-for-dev-scan-db#readme",
   "devDependencies": {
-    "electron": "^6.0.10",
-    "electron-builder": "^21.2.0"
+    "electron": "^9.4.0",
+    "electron-builder": "^22.10.5"
   },
   "dependencies": {
     "express": "^4.17.1",
